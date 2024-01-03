@@ -100,11 +100,11 @@ public class Main {
         // Assigns the value of the array's first item to a new String
         String firstName = nameSplit[0];
 
-        // Calculates PIN by multiplying the length of firstName by employeeAge.
-        int pin = firstName.length() * employeeAge;
-
-        // Returns the remainder of the pin's value when divided by 10000 to ensure the pin is always four digits
-        pin %= 10000;
+        /*
+        Calculates PIN by multiplying the length of firstName by employeeAge, then using the modulo operator on
+        the result to return the remainder when divided by 10000. This ensures the pin is always at most four digits.
+        */
+        int pin = (firstName.length() * employeeAge) % 10000;
 
         // Converts calculated PIN to 4 digit string using string formatting
         String fourDigitPin = String.format("%04d", pin);

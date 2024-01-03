@@ -1,15 +1,33 @@
 import java.util.Scanner;
 
 public class Main {
+    // Creates a new scanner object to read user input
+    Scanner scanner = new Scanner(System.in);
     public static void main(String[] args) {
+        // Runs the program
+        new Main().run(args);
+    }
 
-        // Creates a new scanner object to read user input
-        Scanner scanner = new Scanner(System.in);
+    public void run(String[] args) {
+        /*
+        This is the core program. First, displayWelcome() is run. Then, the user inputs
+        for fullName, employeeAge and employeeNumber are collected by the scanner and
+        assigned appropriately. These values are then passed through the pinGenerator.
+        */
+        displayWelcome();
+        String fullName = getFullName();
+        int employeeAge = getEmployeeAge();
+        int employeeNumber = getEmployeeNumber();
+        pinGenerator(employeeNumber, fullName, employeeAge);
+    }
 
-        // Prints welcome message to the user
+    // Prints welcome message to the user
+    private static void displayWelcome() {
         System.out.println("Welcome to USW Employee Management System");
+    }
 
-        // Prompts user to input full name and assigns input to a new String named fullName
+    // Prompts user to input full name and assigns input to a new String
+    private String getFullName() {
         System.out.println("Please enter your full name:");
         String fullName = scanner.nextLine();
 
@@ -33,9 +51,11 @@ public class Main {
             }
             fullName = scanner.nextLine();
         }
+        return fullName;
+    }
 
-        /* Prompts user to input age; also checks value entered is an int between 18 and 100.
-        If the value is an int, assigns user input to a new int, employeeAge. */
+    // Prompts user to input age; also checks value entered is an int between 18 and 100.
+    private int getEmployeeAge() {
         int employeeAge;
         do {
             System.out.println("Please enter your age (18-100):");
@@ -51,9 +71,11 @@ public class Main {
                 scanner.next();
             }
         } while (true);
+        return employeeAge;
+    }
 
-        /* Prompts user to input employee number; also checks value entered is an int.
-        If the value is an int, assigns user input to a new int, employeeNumber. */
+    // Prompts user to input employee number; also checks value entered is an int.
+    private int getEmployeeNumber() {
         int employeeNumber;
         System.out.println("Please enter your employee number:");
         while (!scanner.hasNextInt()) {
@@ -61,34 +83,30 @@ public class Main {
             scanner.next();
         }
         employeeNumber = scanner.nextInt();
+        return employeeNumber;
+    }
 
-        /* Ensures employee number is displayed as eight characters using string formatting.
-        The new String, eightDigitEmployeeNumber, is assigned the value of the String
-        employeeNumber, formatted to eight digits by passing it through the function
-        String.format().
-         */
+    // Calculates the pseudo-random PIN.
+    private static void pinGenerator(int employeeNumber, String fullName, int employeeAge) {
+        // Ensures employee number is displayed as eight characters using string formatting.
         String eightDigitEmployeeNumber = String.format("%08d", employeeNumber);
 
-        // Calculates the pseudo-random PIN.
-        // First, displays a message to the user to confirm the PIN is being generated.
+        // Displays message to user to confirm the PIN is being generated.
         System.out.println("Generating PIN...");
 
-        /* Then, creates a new string array, nameSplit, which is assigned the value of
-        fullName after being split into array items wherever there is a space, using
-        fullName.split(" ").*/
+        // Splits value of fullName wherever there is a space into a new String array
         String[] nameSplit = fullName.split(" ");
 
-        // A new string, firstName, is assigned the value of the array's first item.
+        // Assigns the value of the array's first item to a new String
         String firstName = nameSplit[0];
 
-        // Then, the int pin is calculated by multiplying the length of firstName by employeeAge.
+        // Calculates PIN by multiplying the length of firstName by employeeAge.
         int pin = firstName.length() * employeeAge;
 
-        /* Finally, to ensure the pin is always at most four digits, the line pin %= 10000
-        returns the remainder of the pin's value when divided by 10000. */
+        // Returns the remainder of the pin's value when divided by 10000 to ensure the pin is always four digits
         pin %= 10000;
 
-        // Convert calculated PIN to 4 digit string using string formatting
+        // Converts calculated PIN to 4 digit string using string formatting
         String fourDigitPin = String.format("%04d", pin);
 
         // Confirms user inputs and account creation, and provides PIN to user
